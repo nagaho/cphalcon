@@ -3048,12 +3048,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param array data
 	 * @param array whiteList
+	 * @param boolean exists
 	 * @return boolean
 	 */
-	public function save(var data = null, var whiteList = null) -> boolean
+	public function save(var data = null, var whiteList = null, var exists = null) -> boolean
 	{
 		var metaData, related, schema, writeConnection, readConnection,
-			source, table, identityField, exists, success;
+			source, table, identityField, success;
 
 		let metaData = this->getModelsMetaData();
 
@@ -3098,7 +3099,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * We need to check if the record exists
 		 */
-		let exists = this->_exists(metaData, readConnection, table);
+		lf typeof exists === "null" {
+			exists = this->_exists(metaData, readConnection, table);
+		}
 
 		if exists {
 			let this->_operationMade = self::OP_UPDATE;
@@ -3234,7 +3237,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Using save() anyways
 		 */
-		return this->save(data, whiteList);
+		return this->save(data, whiteList, false);
 	}
 
 	/**
@@ -3277,7 +3280,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 		/**
 		 * Call save() anyways
 		 */
-		return this->save(data, whiteList);
+		return this->save(data, whiteList, true);
 	}
 
 	/**
