@@ -243,9 +243,10 @@ interface ModelInterface
 	 *
 	 * @param  array data
 	 * @param  array whiteList
+	 * @param  boolean exists
 	 * @return boolean
 	 */
-	public function save(data = null, whiteList = null);
+	public function save(data = null, whiteList = null, exists = null);
 
 	/**
 	 * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
